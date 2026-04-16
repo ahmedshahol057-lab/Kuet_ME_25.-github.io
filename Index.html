@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUET ME '25 — Mechanical Engineering Batch</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #050e1f;
+    --dark: #0a1628;
+    --panel: #0d1f3c;
+    --cyan: #00d4ff;
+    --cyan-dim: #0099bb;
+    --orange: #ff6b35;
+    --gold: #f5a623;
+    --text: #c8e0f0;
+    --muted: #5a7a9a;
+    --grid: rgba(0, 180, 220, 0.07);
+    --grid-bold: rgba(0, 180, 220, 0.13);
+    --border: rgba(0, 212, 255, 0.2);
+    --glow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── BLUEPRINT GRID BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+      linear-gradient(var(--grid-bold) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-bold) 1px, transparent 1px);
+    background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 40px;
+    background: rgba(5, 14, 31, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 1;
+    padding: 80px 20px 40px;
+  }
+
+  /* Gear SVG decorations */
+  .gear {
+    position: absolute;
+    opacity: 0.06;
+    fill: var(--cyan);
+  }
+  .gear-1 { width: 420px; top: -80px; right: -100px; animation: spin 40s linear infinite; }
+  .gear-2 { width: 280px; bottom: 40px; left: -60px; animation: spin 28s linear infinite reverse; }
+  .gear-3 { width: 180px; top: 30%; left: 8%; animation: spin 22s linear infinite; }
+
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; }
+
+  .hero-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .hero-tag::before, .hero-tag::after {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--cyan);
+    opacity: 0.5;
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 50%, #5edfff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes titleGlow {
+    from { filter: drop-shadow(0 0 15px rgba(0,212,255,0.3)); }
+    to   { filter: drop-shadow(0 0 35px rgba(0,212,255,0.7)); }
+  }
+
+  .hero-subtitle {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(0.85rem, 2vw, 1.2rem);
+    letter-spacing: 8px;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    max-width: 500px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--cyan);
+    color: var(--navy);
+    border: 1px solid var(--cyan);
+    font-weight: 700;
+  }
+  .btn-primary:hover { background: transparent; color: var(--cyan); box-shadow: var(--glow); }
+  .btn-outline {
+    background: transparent;
+    color: var(--cyan);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--cyan); box-shadow: var(--glow); }
+
+  /* ── STATS BAR ── */
+  #stats {
+    position: relative; z-index: 1;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .stat-item {
+    padding: 28px 20px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: rgba(0,212,255,0.04); }
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cyan);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+  .section-wrap { max-width: 1200px; margin: 0 auto; padding: 80px 40px; }
+
+  .section-header { margin-bottom: 60px; }
+  .section-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-tag::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--orange);
+  }
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+  .section-title span { color: var(--cyan); }
+
+  /* ── ABOUT ── */
+  #about .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--text);
+    margin-bottom: 16px;
+    opacity: 0.85;
+  }
+  .about-text strong { color: var(--cyan); font-weight: 600; }
+
+  .specs-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+  }
+  .specs-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,212,255,0.06);
+    font-size: 0.85rem;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-key { color: var(--muted); font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; letter-spacing: 1px; }
+  .spec-val { color: var(--text); font-weight: 500; }
+  .spec-val.highlight { color: var(--cyan); }
+
+  /* ── STUDENTS ── */
+  #students .filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--cyan); color: var(--navy); border-color: var(--cyan); font-weight: 700; }
+
+  .search-box {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 8px 16px;
+  }
+  .search-box input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    width: 160px;
+  }
+  .search-box input::placeholder { color: var(--muted); }
+  .search-icon { color: var(--muted); font-size: 0.8rem; }
+
+  .students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .student-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 16px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .student-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--orange));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .student-card:hover { border-color: var(--cyan); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3), var(--glow); }
+  .student-card:hover::before { transform: scaleX(1); }
+
+  .student-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--dark), var(--panel));
+    border: 2px solid var(--border);
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cyan);
+    transition: border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .student-card:hover .student-avatar { border-color: var(--cyan); }
+
+  .student-name {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .student-roll {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .student-badge {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .badge-cr { background: rgba(245,166,35,0.15); color: var(--gold); border: 1px solid rgba(245,166,35,0.3); }
+  .badge-student { background: rgba(0,212,255,0.08); color: var(--cyan-dim); border: 1px solid rgba(0,212,255,0.15); }
+  .badge-rep { background: rgba(255,107,53,0.12); color: var(--orange); border: 1px solid rgba(255,107,53,0.25); }
+
+  /* ── PILLARS ── */
+  #pillars .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .pillar-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 32px 24px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .pillar-card:hover { border-color: rgba(0,212,255,0.4); transform: translateY(-3px); }
+  .pillar-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .pillar-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .pillar-desc { font-size: 0.83rem; line-height: 1.7; color: var(--muted); }
+
+  /* ── MANIFESTO ── */
+  #manifesto {
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  #manifesto .section-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .manifesto-quote {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.1rem, 2.5vw, 1.7rem);
+    font-weight: 600;
+    line-height: 1.5;
+    color: #fff;
+    border-left: 3px solid var(--cyan);
+    padding-left: 28px;
+  }
+  .manifesto-quote em { color: var(--cyan); font-style: normal; }
+  .manifesto-caption {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-top: 16px;
+    padding-left: 28px;
+  }
+  .manifesto-points { display: flex; flex-direction: column; gap: 16px; }
+  .point-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 16px;
+    border: 1px solid rgba(0,212,255,0.08);
+    border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+  .point-row:hover { border-color: var(--border); }
+  .point-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    color: var(--orange);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .point-text { font-size: 0.85rem; line-height: 1.6; color: var(--text); opacity: 0.8; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    background: var(--navy);
+    border-top: 1px solid var(--border);
+    padding: 50px 40px 30px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 40px;
+  }
+  .footer-brand .brand-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+  .footer-brand p { font-size: 0.8rem; line-height: 1.7; color: var(--muted); }
+  .footer-col-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 8px; }
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .footer-links a:hover { color: var(--cyan); }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(0,212,255,0.08);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-bottom p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .footer-bottom .made { color: rgba(0,212,255,0.5); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── PARTICLE CANVAS ── */
+  #particle-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan-dim); border-radius: 2px; }
+
+  /* ── COUNTER animation ── */
+  @keyframes countUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ── NOTICES ── */
+  #notices { background: var(--dark); border-top: 1px solid var(--border); }
+  .notices-search {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 560px;
+  }
+  .notices-search input {
+    flex: 1;
+    background: var(--panel);
+    border: none;
+    outline: none;
+    padding: 12px 18px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+  }
+  .notices-search input::placeholder { color: var(--muted); }
+  .notices-search button {
+    background: var(--cyan);
+    border: none;
+    padding: 12px 22px;
+    color: var(--navy);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .notices-search button:hover { background: var(--cyan-dim); }
+  .notices-list { display: flex; flex-direction: column; gap: 16px; }
+  .notice-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--cyan);
+    border-radius: 2px;
+    padding: 22px 24px;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .notice-card:hover { border-color: var(--cyan); transform: translateX(4px); box-shadow: var(--glow); }
+  .notice-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .notice-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+  .notice-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--cyan);
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0,212,255,0.3);
+    padding-bottom: 1px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .notice-link:hover { color: #fff; border-color: #fff; }
+  .notice-card.hidden { display: none; }
+
+  /* ── RESOURCES ── */
+  #resources { background: var(--navy); border-top: 1px solid var(--border); }
+  .resources-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .resources-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .resources-table thead tr {
+    background: var(--panel);
+    border-bottom: 2px solid var(--cyan);
+  }
+  .resources-table th {
+    padding: 16px 20px;
+    text-align: left;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .resources-table tbody tr {
+    border-bottom: 1px solid rgba(0,212,255,0.06);
+    transition: background 0.25s;
+  }
+  .resources-table tbody tr:last-child { border-bottom: none; }
+  .resources-table tbody tr:hover { background: rgba(0,212,255,0.04); }
+  .resources-table td {
+    padding: 16px 20px;
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .resources-table td:first-child { color: #fff; font-weight: 500; }
+  .resources-table td .upload-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .res-action-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--cyan);
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 5px 12px;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .res-action-link:hover { background: var(--cyan); color: var(--navy); border-color: var(--cyan); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    #about .about-grid { grid-template-columns: 1fr; }
+    #manifesto .section-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 30px; }
+    .section-wrap { padding: 60px 20px; }
+    .search-box { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<!-- Gear SVGs -->
+<svg class="gear gear-1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path d="M43.3 0l-4 13.4A38 38 0 0028.1 8L17.4 15l8.4 11.2A38 38 0 0020 38.2L6.3 40l1.6 13.3 13.7-1a38 38 0 007.3 12L23 76l10.5 8 8.3-10.8A38 38 0 0054 75.8l4.2 13.2 13-4-4-13.4A38 38 0 0078 64l12 4 5-12-12-5a38 38 0 001-14L97 34l-1.6-13.4-13.7 1A38 38 0 0074.4 9.4L80 1 69.5-7 61.3 3.8A38 38 0 0049 2.5L44.7-11 43.3 0z"/>
+  <circle cx="50" cy="50" r="14"/>
+</svg>
+<svg class="gear gear-2" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path d="M43.3 0l-4 13.4A38 38 0 0028.1 8L17.4 15l8.4 11.2A38 38 0 0020 38.2L6.3 40l1.6 13.3 13.7-1a38 38 0 007.3 12L23 76l10.5 8 8.3-10.8A38 38 0 0054 75.8l4.2 13.2 13-4-4-13.4A38 38 0 0078 64l12 4 5-12-12-5a38 38 0 001-14L97 34l-1.6-13.4-13.7 1A38 38 0 0074.4 9.4L80 1 69.5-7 61.3 3.8A38 38 0 0049 2.5L44.7-11 43.3 0z"/>
+  <circle cx="50" cy="50" r="14"/>
+</svg>
+<svg class="gear gear-3" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path d="M43.3 0l-4 13.4A38 38 0 0028.1 8L17.4 15l8.4 11.2A38 38 0 0020 38.2L6.3 40l1.6 13.3 13.7-1a38 38 0 007.3 12L23 76l10.5 8 8.3-10.8A38 38 0 0054 75.8l4.2 13.2 13-4-4-13.4A38 38 0 0078 64l12 4 5-12-12-5a38 38 0 001-14L97 34l-1.6-13.4-13.7 1A38 38 0 0074.4 9.4L80 1 69.5-7 61.3 3.8A38 38 0 0049 2.5L44.7-11 43.3 0z"/>
+  <circle cx="50" cy="50" r="14"/>
+</svg>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">KUET <span>ME</span> '25</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#students">Students</a></li>
+    <li><a href="#pillars">Journey</a></li>
+    <li><a href="#manifesto">Values</a></li>
+    <li><a href="#notices">Notices</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Khulna University of Engineering &amp; Technology</div>
+    <h1 class="hero-title">ME '25</h1>
+    <div class="hero-subtitle">Mechanical Engineering Batch</div>
+    <p class="hero-desc">
+      Forged in heat, shaped by force — a generation of engineers ready to move the world.
+    </p>
+    <div class="hero-buttons">
+      <a href="#students" class="btn btn-primary">Meet the Batch</a>
+      <a href="#about" class="btn btn-outline">Our Story</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stat-item">
+    <span class="stat-num" data-target="120">0</span>
+    <span class="stat-label">Students</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="2025">0</span>
+    <span class="stat-label">Admission Year</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">4</span>
+    <span class="stat-label">Year Program</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="8">0</span>
+    <span class="stat-label">Semesters</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="158">0</span>
+    <span class="stat-label">Credit Hours</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">ME</span>
+    <span class="stat-label">Department</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">Who We Are</div>
+      <h2 class="section-title">Batch <span>2025</span></h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          We are the <strong>Mechanical Engineering Batch of 2025</strong> at Khulna University of Engineering &amp; Technology — a tight-knit cohort of problem-solvers, designers, and future engineers who arrived at the doors of KUET with one shared ambition: to build things that matter.
+        </p>
+        <p>
+          The <strong>Department of Mechanical Engineering</strong> at KUET is one of Bangladesh's most distinguished ME programs, known for its rigorous curriculum spanning thermodynamics, fluid mechanics, machine design, manufacturing processes, and robotics. We are proud to be its newest batch.
+        </p>
+        <p>
+          From the first day in <strong>CAD labs</strong> to late nights in the workshop, every challenge has brought us closer. This is our story — and it's just getting started.
+        </p>
+      </div>
+      <div class="specs-box">
+        <div class="specs-title">// Batch Specifications</div>
+        <div class="spec-row">
+          <span class="spec-key">INSTITUTION</span>
+          <span class="spec-val">KUET, Khulna</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">DEPARTMENT</span>
+          <span class="spec-val highlight">Mechanical Engineering</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">BATCH ID</span>
+          <span class="spec-val highlight">ME-25</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">SESSION</span>
+          <span class="spec-val">2025 – 2026</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">PROGRAM</span>
+          <span class="spec-val">B.Sc. Engineering (ME)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">INTAKE</span>
+          <span class="spec-val">~120 Students</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">DEPT. CODE</span>
+          <span class="spec-val highlight">ME / 04</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">STATUS</span>
+          <span class="spec-val" style="color:#2ecc71">● Active</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDENTS -->
+<section id="students">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">The Crew</div>
+      <h2 class="section-title">Our <span>Batchmates</span></h2>
+    </div>
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+      <button class="filter-btn" onclick="filterCards('cr', this)">CR / ACR</button>
+      <button class="filter-btn" onclick="filterCards('rep', this)">Reps</button>
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="searchInput" placeholder="Search name / roll..." oninput="searchCards(this.value)">
+      </div>
+    </div>
+    <div class="students-grid" id="studentsGrid"></div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section id="pillars">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">The Path</div>
+      <h2 class="section-title">Four Years of <span>Engineering</span></h2>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <span class="pillar-icon">⚙️</span>
+        <div class="pillar-title">Year 1 — Foundations</div>
+        <p class="pillar-desc">Mathematics, Physics, Engineering Drawing, Basic Mechanics. The bedrock upon which everything else is built. Learning to see the world as a system of forces and constraints.</p>
+      </div>
+      <div class="pillar-card reveal">
+        <span class="pillar-icon">🔥</span>
+        <div class="pillar-title">Year 2 — Core Mechanics</div>
+        <p class="pillar-desc">Thermodynamics, Fluid Mechanics, Strength of Materials, Machine Elements. Where theory gets hot and the real engineering begins.</p>
+      </div>
+      <div class="pillar-card reveal">
+        <span class="pillar-icon">🏭</span>
+        <div class="pillar-title">Year 3 — Design & Manufacture</div>
+        <p class="pillar-desc">Machine Design, Manufacturing Processes, Heat Transfer, Dynamics of Machinery. Turning concepts into blueprints and blueprints into reality.</p>
+      </div>
+      <div class="pillar-card reveal">
+        <span class="pillar-icon">🚀</span>
+        <div class="pillar-title">Year 4 — Thesis & Beyond</div>
+        <p class="pillar-desc">Final Year Project, Industrial Attachment, Electives in Robotics, CAD/CAM, Energy Engineering. Ready to engineer the future.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <div class="section-wrap">
+    <div class="reveal">
+      <div class="manifesto-quote">
+        "We don't just study engineering —<br>we <em>live</em> it. Every equation solved,<br>every component drawn, every prototype<br>broken and rebuilt — that's <em>us</em>."
+      </div>
+      <div class="manifesto-caption">— ME '25 Batch Manifesto</div>
+    </div>
+    <div class="manifesto-points reveal">
+      <div class="point-row">
+        <span class="point-num">01</span>
+        <p class="point-text">We believe great engineering starts with curiosity — asking "why does it break?" before asking "how do I build it?"</p>
+      </div>
+      <div class="point-row">
+        <span class="point-num">02</span>
+        <p class="point-text">We support each other through every failed simulation, every redrawn CAD model, every exam season.</p>
+      </div>
+      <div class="point-row">
+        <span class="point-num">03</span>
+        <p class="point-text">We represent KUET's legacy — and we're adding a new chapter to it, one semester at a time.</p>
+      </div>
+      <div class="point-row">
+        <span class="point-num">04</span>
+        <p class="point-text">We carry Khulna's spirit forward — into labs, industries, research centres, and beyond Bangladesh.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST NOTICES -->
+<section id="notices">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">Official Updates</div>
+      <h2 class="section-title">Latest <span>Notices</span></h2>
+    </div>
+    <div class="notices-search reveal">
+      <input type="text" id="noticeSearch" placeholder="Search notices, subjects, or topics..." oninput="filterNotices(this.value)">
+      <button onclick="filterNotices(document.getElementById('noticeSearch').value)">Search</button>
+    </div>
+    <div class="notices-list" id="noticesList">
+
+      <div class="notice-card reveal" data-title="admission notice 4th call">
+        <div class="notice-date">April 12, 2026</div>
+        <div class="notice-title">Admission Notice (4th Call)</div>
+        <a href="https://admission.kuet.ac.bd/" target="_blank" class="notice-link">⬇ Download Notice (PDF)</a>
+      </div>
+
+      <div class="notice-card reveal" data-title="3rd call department re-allocation ka">
+        <div class="notice-date">April 12, 2026</div>
+        <div class="notice-title">3rd Call Department Re-Allocation (KA)</div>
+        <a href="https://admission.kuet.ac.bd/" target="_blank" class="notice-link">⬇ Download Notice (PDF)</a>
+      </div>
+
+      <div class="notice-card reveal" data-title="admission test result group ka">
+        <div class="notice-date">January 26, 2026</div>
+        <div class="notice-title">Admission Test Result (Group KA)</div>
+        <a href="https://admission.kuet.ac.bd/" target="_blank" class="notice-link">⬇ Download Notice (PDF)</a>
+      </div>
+
+    </div>
+    <div style="margin-top:28px;">
+      <a href="https://admission.kuet.ac.bd/" target="_blank" class="btn btn-outline" style="font-size:0.7rem;">
+        View All Notices on KUET Admission Portal →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CLASS NOTES & RESOURCES -->
+<section id="resources">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-tag">Academic Material</div>
+      <h2 class="section-title">Class Notes &amp; <span>Resources</span></h2>
+    </div>
+    <div class="resources-table-wrap reveal">
+      <table class="resources-table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Topic</th>
+            <th>Upload Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Course Syllabus</td>
+            <td>Mechanical Engineering</td>
+            <td><span class="upload-date">2026</span></td>
+            <td>
+              <a href="https://www.kuet.ac.bd/me/ugcurriculum" target="_blank" class="res-action-link">
+                ⬇ Download PDF
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand-title">KUET ME '25</div>
+      <p>Mechanical Engineering Batch 2025<br>Khulna University of Engineering &amp; Technology<br>Khulna 9203, Bangladesh</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Department</div>
+      <ul class="footer-links">
+        <li><a href="#">ME Department</a></li>
+        <li><a href="#">KUET Official</a></li>
+        <li><a href="#">Student Portal</a></li>
+        <li><a href="#">Library</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li><a href="#">Facebook Group</a></li>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">GitHub</a></li>
+        <li><a href="#">Contact Admin</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 KUET ME Batch '25. All rights reserved.</p>
+    <p class="made">Built with ❤️ by ME '25</p>
+  </div>
+</footer>
+
+<script>
+// ── STUDENT DATA (placeholder — replace with real names & rolls) ──
+const students = [
+  { name: "Abdur Rahman", roll: "2507001", initials: "AR", role: "cr" },
+  { name: "Afia Sultana", roll: "2507002", initials: "AS", role: "rep" },
+  { name: "Ahmed Rifat", roll: "2507003", initials: "AR", role: "student" },
+  { name: "Al Amin Hossain", roll: "2507004", initials: "AH", role: "student" },
+  { name: "Anika Islam", roll: "2507005", initials: "AI", role: "student" },
+  { name: "Arif Hasan", roll: "2507006", initials: "AH", role: "student" },
+  { name: "Asaduzzaman Asad", roll: "2507007", initials: "AA", role: "rep" },
+  { name: "Ashrafun Nahar", roll: "2507008", initials: "AN", role: "student" },
+  { name: "Belal Hossain", roll: "2507009", initials: "BH", role: "student" },
+  { name: "Dipta Barua", roll: "2507010", initials: "DB", role: "student" },
+  { name: "Farhan Labib", roll: "2507011", initials: "FL", role: "student" },
+  { name: "Fatema Tuz Zohra", roll: "2507012", initials: "FZ", role: "student" },
+  { name: "Habibur Rahman", roll: "2507013", initials: "HR", role: "student" },
+  { name: "Imran Hossain", roll: "2507014", initials: "IH", role: "student" },
+  { name: "Jakaria Ahmed", roll: "2507015", initials: "JA", role: "cr" },
+  { name: "Jannatul Ferdous", roll: "2507016", initials: "JF", role: "student" },
+  { name: "Jubayer Ahmed", roll: "2507017", initials: "JA", role: "student" },
+  { name: "Mahbubur Rahman", roll: "2507018", initials: "MR", role: "student" },
+  { name: "Mahmud Hasan", roll: "2507019", initials: "MH", role: "student" },
+  { name: "Maliha Binte Mazid", roll: "2507020", initials: "MM", role: "student" },
+  { name: "Masum Billah", roll: "2507021", initials: "MB", role: "student" },
+  { name: "Md. Fahim Shahriar", roll: "2507022", initials: "FS", role: "student" },
+  { name: "Md. Nayeem Islam", roll: "2507023", initials: "NI", role: "student" },
+  { name: "Md. Rakibul Islam", roll: "2507024", initials: "RI", role: "student" },
+  { name: "Minhaz Uddin", roll: "2507025", initials: "MU", role: "rep" },
+  { name: "Mostak Ahmed", roll: "2507026", initials: "MA", role: "student" },
+  { name: "Nafia Islam", roll: "2507027", initials: "NI", role: "student" },
+  { name: "Naim Hossain", roll: "2507028", initials: "NH", role: "student" },
+  { name: "Nahid Sultana", roll: "2507029", initials: "NS", role: "student" },
+  { name: "Nilufar Yasmin", roll: "2507030", initials: "NY", role: "student" },
+  { name: "Nuhashpriom Pallab", roll: "2507031", initials: "NP", role: "student" },
+  { name: "Nur Mohammad", roll: "2507032", initials: "NM", role: "student" },
+  { name: "Puja Rani Das", roll: "2507033", initials: "PD", role: "student" },
+  { name: "Rabiul Hasan", roll: "2507034", initials: "RH", role: "student" },
+  { name: "Rafia Afrin", roll: "2507035", initials: "RA", role: "student" },
+  { name: "Rahat Islam", roll: "2507036", initials: "RI", role: "student" },
+  { name: "Rahul Roy", roll: "2507037", initials: "RR", role: "student" },
+  { name: "Rashed Karim", roll: "2507038", initials: "RK", role: "student" },
+  { name: "Redwan Ahmed", roll: "2507039", initials: "RA", role: "student" },
+  { name: "Rifat Mahmud", roll: "2507040", initials: "RM", role: "student" },
+  { name: "Rubaiya Khatun", roll: "2507041", initials: "RK", role: "student" },
+  { name: "Saad Abdullah", roll: "2507042", initials: "SA", role: "student" },
+  { name: "Sabrina Sultana", roll: "2507043", initials: "SS", role: "rep" },
+  { name: "Sadman Sakib", roll: "2507044", initials: "SS", role: "student" },
+  { name: "Saiful Islam", roll: "2507045", initials: "SI", role: "student" },
+  { name: "Sakib Hasan", roll: "2507046", initials: "SH", role: "student" },
+  { name: "Samin Yasar", roll: "2507047", initials: "SY", role: "student" },
+  { name: "Shahol Islam", roll: "2507048", initials: "SI", role: "student" },
+  { name: "Shariful Islam", roll: "2507049", initials: "SI", role: "student" },
+  { name: "Shuvo Das", roll: "2507050", initials: "SD", role: "student" },
+  { name: "Sidratul Muntaha", roll: "2507051", initials: "SM", role: "student" },
+  { name: "Sumaiya Akter", roll: "2507052", initials: "SA", role: "student" },
+  { name: "Sumon Hossain", roll: "2507053", initials: "SH", role: "student" },
+  { name: "Tahsin Ahmed", roll: "2507054", initials: "TA", role: "student" },
+  { name: "Tanvir Hasan", roll: "2507055", initials: "TH", role: "student" },
+  { name: "Tasnim Jahan", roll: "2507056", initials: "TJ", role: "student" },
+  { name: "Topu Kumar", roll: "2507057", initials: "TK", role: "student" },
+  { name: "Tuhin Hasan", roll: "2507058", initials: "TH", role: "student" },
+  { name: "Walid Hossain", roll: "2507059", initials: "WH", role: "student" },
+  { name: "Yasir Arafat", roll: "2507060", initials: "YA", role: "student" },
+];
+
+const roleConfig = {
+  cr:      { label: "CR / ACR",  cls: "badge-cr"      },
+  rep:     { label: "Batch Rep", cls: "badge-rep"     },
+  student: { label: "ME '25",    cls: "badge-student" },
+};
+
+function buildCard(s) {
+  const { label, cls } = roleConfig[s.role];
+  return `
+    <div class="student-card" data-role="${s.role}" data-name="${s.name.toLowerCase()}" data-roll="${s.roll}">
+      <div class="student-avatar">${s.initials}</div>
+      <div class="student-name">${s.name}</div>
+      <div class="student-roll">${s.roll}</div>
+      <span class="student-badge ${cls}">${label}</span>
+    </div>`;
+}
+
+function renderCards(list) {
+  const grid = document.getElementById('studentsGrid');
+  grid.innerHTML = list.map(buildCard).join('');
+}
+
+renderCards(students);
+
+let currentFilter = 'all';
+
+function filterCards(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function searchCards(query) {
+  applyFilters(query);
+}
+
+function applyFilters(query = document.getElementById('searchInput').value) {
+  const q = query.toLowerCase();
+  const filtered = students.filter(s => {
+    const matchFilter = currentFilter === 'all' || s.role === currentFilter;
+    const matchSearch = !q || s.name.toLowerCase().includes(q) || s.roll.includes(q);
+    return matchFilter && matchSearch;
+  });
+  renderCards(filtered);
+}
+
+// ── NOTICE SEARCH ──
+function filterNotices(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.notice-card').forEach(card => {
+    const title = card.dataset.title || '';
+    const text = card.textContent.toLowerCase();
+    card.classList.toggle('hidden', q && !title.includes(q) && !text.includes(q));
+  });
+}
+
+// ── COUNTER ANIMATION ──
+function animateCounter(el, target, duration = 1800) {
+  const start = performance.now();
+  const isYear = target > 1000;
+  const update = (now) => {
+    const progress = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(ease * target);
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target;
+  };
+  requestAnimationFrame(update);
+}
+
+// ── SCROLL REVEAL ──
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // Counter
+      if (e.target.closest('#stats')) return;
+    }
+  });
+}, { threshold: 0.1 });
+revealEls.forEach(el => observer.observe(el));
+
+// Stats counter on scroll
+const statsSection = document.getElementById('stats');
+const statsObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+      animateCounter(el, parseInt(el.dataset.target));
+    });
+    statsObserver.disconnect();
+  }
+}, { threshold: 0.5 });
+statsObserver.observe(statsSection);
+
+// ── PARTICLE CANVAS ──
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.r = Math.random() * 1.2 + 0.3;
+    this.alpha = Math.random() * 0.5 + 0.1;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0, 212, 255, ${this.alpha})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  // Draw connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 100) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(0, 212, 255, ${(1 - dist/100) * 0.08})`;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>
